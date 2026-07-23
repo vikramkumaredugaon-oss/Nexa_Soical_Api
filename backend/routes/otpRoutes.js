@@ -4,20 +4,20 @@ const router = express.Router();
 
 
 const OtpController =
-require("../controllers/OtpController");
+require("../controllers/otpController");
 
 
 
 router.post(
-"/send",
-OtpController.send
+    "/send",
+    OtpController.send
 );
 
 
 
 router.post(
-"/verify",
-OtpController.verify
+    "/verify",
+    OtpController.verify
 );
 
 
