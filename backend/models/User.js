@@ -121,17 +121,18 @@ class User {
     }
 
     // Update Last Logout
-    static async updateLastLogout(userId) {
+    // Update Last Logout
+static async updateLastLogout(userId) {
 
-        const sql = `
+    const sql = `
         UPDATE users
         SET last_logout_at = NOW(),
             device_token = NULL
         WHERE id = ?
     `;
 
-        await db.query(sql, [userId]);
-    }
+    await db.query(sql, [userId]);
+}
 
 }
 

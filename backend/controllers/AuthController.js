@@ -461,8 +461,6 @@ class AuthController {
 
     // ================= LOGOUT =================
 
-    // ================= LOGOUT =================
-
     static async logout(req, res) {
 
         try {
