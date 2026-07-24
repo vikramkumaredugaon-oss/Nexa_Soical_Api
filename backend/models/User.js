@@ -4,14 +4,16 @@ class User {
 
     // Create User
     static async createUser(data) {
+
         const sql = `
             INSERT INTO users (
                 username,
                 email,
                 phone,
-                password
+                password,
+                device_token
             )
-            VALUES (?, ?, ?, ?)
+            VALUES (?, ?, ?, ?, ?)
         `;
 
         const [result] = await db.query(sql, [
@@ -19,6 +21,7 @@ class User {
             data.email,
             data.phone,
             data.password,
+            data.device_token,
         ]);
 
         return result;
@@ -26,6 +29,7 @@ class User {
 
     // Find by Email
     static async findByEmail(email) {
+
         const sql = `
             SELECT *
             FROM users
@@ -40,6 +44,7 @@ class User {
 
     // Find by Username
     static async findByUsername(username) {
+
         const sql = `
             SELECT *
             FROM users
@@ -54,6 +59,7 @@ class User {
 
     // Find by Phone
     static async findByPhone(phone) {
+
         const sql = `
             SELECT *
             FROM users
@@ -68,6 +74,7 @@ class User {
 
     // Login (Email / Username / Phone)
     static async findByLogin(login) {
+
         const sql = `
             SELECT *
             FROM users
@@ -88,6 +95,7 @@ class User {
 
     // Update Last Login
     static async updateLastLogin(userId) {
+
         const sql = `
             UPDATE users
             SET last_login_at = NOW()
@@ -99,6 +107,7 @@ class User {
 
     // Update Device Token
     static async updateDeviceToken(userId, deviceToken) {
+
         const sql = `
             UPDATE users
             SET device_token = ?
@@ -110,6 +119,7 @@ class User {
             userId,
         ]);
     }
+
 }
 
 module.exports = User;

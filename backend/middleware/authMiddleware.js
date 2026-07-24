@@ -5,53 +5,111 @@ const authMiddleware = (req, res, next) => {
 
     try {
 
+
         const authHeader = req.headers.authorization;
+
 
 
         if (!authHeader) {
 
             return res.status(401).json({
+
                 success: false,
+
                 message: "Authorization token required."
+
             });
 
         }
 
 
-        const token = authHeader.split(" ")[1];
 
 
-        if (!token) {
+        const parts = authHeader.split(" ");
+
+
+
+
+        if (
+            parts.length !== 2 ||
+            parts[0] !== "Bearer"
+        ) {
 
             return res.status(401).json({
+
                 success: false,
-                message: "Invalid token."
+
+                message: "Invalid authorization format."
+
             });
 
         }
 
 
-        const decoded = jwtService.verifyToken(token);
 
 
-        req.user = decoded;
+        const token = parts[1];
+
+
+
+
+        const decoded =
+            jwtService.verifyToken(token);
+
+
+
+
+        if (!decoded || !decoded.id) {
+
+            return res.status(401).json({
+
+                success: false,
+
+                message: "Invalid token payload."
+
+            });
+
+        }
+
+
+
+
+        req.user = {
+
+            id: decoded.id
+
+        };
+
+
 
 
         next();
 
 
+
     } catch (error) {
+
+
+        console.log(
+            "AUTH MIDDLEWARE ERROR :",
+            error.message
+        );
+
+
 
         return res.status(401).json({
 
             success: false,
+
             message: "Unauthorized user."
 
         });
 
+
     }
 
 };
+
 
 
 module.exports = authMiddleware;
