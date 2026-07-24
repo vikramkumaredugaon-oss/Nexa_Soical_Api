@@ -17,5 +17,11 @@ router.patch(
     AuthController.updateDeviceToken
 );
 
+router.post(
+    "/logout",
+    authMiddleware,
+    AuthController.logout
+);
+
 
 module.exports = router;
