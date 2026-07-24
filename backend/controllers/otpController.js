@@ -1,4 +1,4 @@
-const OtpService = require("../services/OtpService");
+const OtpService = require("../services/otpService");
 
 
 class OtpController{
