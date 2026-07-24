@@ -64,9 +64,34 @@ class Profile {
 
 
     // Update Profile
-    static async updateProfile(userId, data) {
+    // Update Profile
+static async updateProfile(userId, data) {
 
-        const sql = `
+    const conn = await db.getConnection();
+
+    try {
+
+        await conn.beginTransaction();
+
+        // users table
+        await conn.query(
+            `
+            UPDATE users
+            SET
+                username = ?,
+                phone = ?
+            WHERE id = ?
+            `,
+            [
+                data.username,
+                data.phone,
+                userId
+            ]
+        );
+
+        // profiles table
+        await conn.query(
+            `
             UPDATE profiles
             SET
                 full_name = ?,
@@ -74,18 +99,31 @@ class Profile {
                 gender = ?,
                 dob = ?
             WHERE user_id = ?
-        `;
+            `,
+            [
+                data.full_name,
+                data.bio,
+                data.gender,
+                data.dob,
+                userId
+            ]
+        );
 
-        const [result] = await db.query(sql, [
-            data.full_name,
-            data.bio,
-            data.gender,
-            data.dob,
-            userId
-        ]);
+        await conn.commit();
 
-        return result;
+        return true;
+
+    } catch (e) {
+
+        await conn.rollback();
+        throw e;
+
+    } finally {
+
+        conn.release();
+
     }
+}
 
 }
 

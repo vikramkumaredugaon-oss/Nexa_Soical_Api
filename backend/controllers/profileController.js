@@ -90,53 +90,43 @@ class ProfileController {
 
 
     // Update Profile
+    // Update Profile
     static async update(req, res) {
-
         try {
 
             const userId = req.user.id;
 
-
             const {
+                username,
+                phone,
                 full_name,
                 bio,
                 gender,
                 dob
             } = req.body;
 
-
-
             await Profile.updateProfile(userId, {
-
+                username,
+                phone,
                 full_name,
                 bio,
                 gender,
                 dob
-
             });
-
-
 
             return res.status(200).json({
-
                 success: true,
                 message: "Profile updated successfully."
-
             });
-
-
 
         } catch (error) {
 
             return res.status(500).json({
-
                 success: false,
                 message: error.message
-
             });
 
         }
-
     }
 
 
